@@ -2,3 +2,4 @@ uv
 google-genai
 mcp
 fastmcp
+pandas
