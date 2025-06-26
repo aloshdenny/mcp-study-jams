@@ -3,3 +3,4 @@ google-genai
 mcp
 fastmcp
 pandas
+pymupdf

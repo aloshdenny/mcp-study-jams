@@ -43,6 +43,30 @@ def read_document(file_path: str, nth_row: int) -> str:
 
     except Exception as e:
         return f"Error reading file: {e}"
+    
+@mcp.tool()
+def list_files_in_directory(directory_path):
+    """
+    Lists all files (not directories) in the given directory path.
+
+    Args:
+        directory_path (str): The path to the directory.
+
+    Returns:
+        List[str]: A list of file names in the directory.
+    """
+    try:
+        # List all entries in the directory
+        entries = os.listdir(directory_path)
+        # Filter out only files
+        files = [f for f in entries if os.path.isfile(os.path.join(directory_path, f))]
+        return files
+    except FileNotFoundError:
+        print(f"Error: Directory '{directory_path}' not found.")
+        return []
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return []
 
 # To run this server:
 # python server.py

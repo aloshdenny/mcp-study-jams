@@ -46,38 +46,28 @@ def read_csv(file_path: str, nth_row: int) -> str:
         return f"Error reading file: {e}"
     
 @mcp.tool()
-def read_pdf(file_path: str, page_number: int) -> str:
+def list_files_in_directory(directory_path):
     """
-    Reads text from a specific page of a PDF file.
+    Lists all files (not directories) in the given directory path.
 
     Args:
-        file_path (str): The absolute path to the PDF file.
-        page_number (int): The 1-indexed page number to read.
+        directory_path (str): The path to the directory.
 
     Returns:
-        str: Text content of the specified page or error message.
+        List[str]: A list of file names in the directory.
     """
-    if not os.path.exists(file_path):
-        return f"Error: File not found at {file_path}"
-
-    if os.path.splitext(file_path)[1].lower() != ".pdf":
-        return f"Error: Unsupported file type. Only PDF is supported."
-
-    if page_number < 1:
-        return f"Error: page_number must be >= 1, got {page_number}"
-
     try:
-        with fitz.open(file_path) as doc:
-            if page_number > len(doc):
-                return f"Error: Page {page_number} does not exist. Total pages: {len(doc)}"
-
-            page = doc.load_page(page_number - 1)
-            text = page.get_text()
-
-            return f"Text from page {page_number}:\n\n{text.strip() if text.strip() else '[No readable text]'}"
-
+        # List all entries in the directory
+        entries = os.listdir(directory_path)
+        # Filter out only files
+        files = [f for f in entries if os.path.isfile(os.path.join(directory_path, f))]
+        return files
+    except FileNotFoundError:
+        print(f"Error: Directory '{directory_path}' not found.")
+        return []
     except Exception as e:
-        return f"Error reading PDF: {e}"
+        print(f"An error occurred: {e}")
+        return []
 
 # To run this server:
 # python server.py
