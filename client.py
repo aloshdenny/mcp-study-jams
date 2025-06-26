@@ -49,7 +49,7 @@ async def run():
                 for tool in tools.tools
             ]
             config = types.GenerateContentConfig(tools=tools)
-            
+
             # Get response from Gemini
             response = client.models.generate_content(
                 model="gemini-2.5-pro-preview-03-25",
@@ -58,6 +58,10 @@ async def run():
             )
 
             tool_call = response.candidates[0].content.parts[0].function_call
+
+            if tool_call is None:
+                print("No tool was selected or returned.")
+                return  # or handle it gracefully
 
             # Use MCP client to call the tool and get result
             tool_name = tool_call.name
