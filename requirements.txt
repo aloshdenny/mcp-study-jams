@@ -1,0 +1,4 @@
+uv
+google-genai
+mcp
+fastmcp
