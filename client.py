@@ -19,7 +19,7 @@ client = genai.Client(api_key="AIzaSyCsbPzvNrYKC5AakAWlwBciFS2M4MfD2aE")
 # Launch and communicate with MCP server using stdio
 server_params = StdioServerParameters(
     command="python",
-    args=["server.py"],
+    args=["mcp_spawner.py"],
 )
 
 async def run():
