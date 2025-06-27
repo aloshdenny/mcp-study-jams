@@ -2,6 +2,7 @@
 from mcp.server.fastmcp import FastMCP
 import pandas as pd
 import os
+import json
 
 mcp = FastMCP("DocumentReader")
 
@@ -67,6 +68,26 @@ def list_files_in_directory(directory_path):
     except Exception as e:
         print(f"An error occurred: {e}")
         return []
+    
+@mcp.tool()
+def fetch_from_db(user_id: int) -> str:
+    """
+    Fetches user data from a mock database.
+
+    Args:
+        user_id (int): The ID of the user to fetch.
+
+    Returns:
+        str: Name of the user or an error message if not found.
+    """
+    with open("users.json", "r") as f:
+        users = json.load(f)
+
+    for user in users:
+        if user.get("user_id") == user_id:
+            return f"User ID: {user_id}, Name: {user['name']}"
+
+    return f"Error: User with ID {user_id} not found."
 
 # To run this server:
 # python server.py

@@ -14,12 +14,12 @@ from mcp.client.stdio import stdio_client
 import asyncio
 
 # Connect Google GenAI client
-client = genai.Client(api_key="")
+client = genai.Client(api_key="AIzaSyCsbPzvNrYKC5AakAWlwBciFS2M4MfD2aE")
 
 # Launch and communicate with MCP server using stdio
 server_params = StdioServerParameters(
     command="python",
-    args=["image_server.py"],
+    args=["server.py"],
 )
 
 async def run():
