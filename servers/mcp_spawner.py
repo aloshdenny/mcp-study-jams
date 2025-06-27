@@ -24,7 +24,7 @@ def spawn_mcp_function(query: str) -> str:
         str: The function returned by Gemini after processing the query.
     """
 
-    client = genai.Client(api_key="")
+    client = genai.Client(api_key="AIzaSyCsbPzvNrYKC5AakAWlwBciFS2M4MfD2aE")
     config = types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT)
 
     response = client.models.generate_content(
@@ -121,6 +121,51 @@ def scrape_data_selenium(url: str) -> dict:
             driver.quit()
 
     return scraped_data
+
+
+@mcp.tool()
+def create_file(file_path: str, content: str = "") -> bool:
+    """
+    Creates a new file at the specified path, optionally writing initial content to it.
+
+    Args:
+        file_path (str): The full path to the file to be created.
+        content (str, optional): The initial content to write to the file. Defaults to an empty string.
+
+    Returns:
+        bool: True if the file was created successfully, False otherwise.
+    """
+    try:
+        with open(file_path, 'w') as f:
+            f.write(content)
+        return True
+    except IOError as e:
+        print(f"Error creating file '{file_path}': {e}")
+        return False
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        return False
+
+@mcp.tool()
+def delete_file(file_path: str) -> bool:
+    """
+    Deletes the specified file if it exists.
+
+    Args:
+        file_path (str): The full path to the file to be deleted.
+
+    Returns:
+        bool: True if the file was deleted successfully, False otherwise.
+    """
+    try:
+        os.remove(file_path)
+        return True
+    except FileNotFoundError:
+        print(f"File '{file_path}' not found.")
+        return False
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        return False
 
 if __name__ == "__main__":
     mcp.run()
