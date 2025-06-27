@@ -19,7 +19,7 @@ client = genai.Client(api_key="")
 # Launch and communicate with MCP server using stdio
 server_params = StdioServerParameters(
     command="python",
-    args=["server.py"],
+    args=["image_server.py"],
 )
 
 async def run():
@@ -52,7 +52,7 @@ async def run():
             
             # Get response from Gemini
             response = client.models.generate_content(
-                model="gemini-2.5-pro-preview-03-25",
+                model="gemini-2.5-flash",
                 contents=prompt,
                 config=config,
             )
